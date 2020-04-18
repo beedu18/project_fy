@@ -1,8 +1,8 @@
 class Element {
-    constructor(x,y,food) {
+    constructor(x,y,food,dimension) {
         this.x = x;
         this.y = y;
-        this.dimension = 20;
+        this.dimension = dimension;
         this.food = food; //true => food, false => poison
         this.health = loadImage('../resources/health.png');
         this.poison = loadImage('../resources/poison.png');

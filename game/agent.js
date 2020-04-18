@@ -1,5 +1,5 @@
 class Agent {
-    constructor(x, y, col=color(0,255,236), s=17) {
+    constructor(x, y, s=17, col=color(0,255,236)) {
         this.position = createVector(x,y);
         this.velocity = p5.Vector.random2D();
         this.velocity.setMag(random(2,3));
@@ -8,7 +8,7 @@ class Agent {
         this.size=s;
         this.col = col;
         this.trails=[];
-        this.length = 25;
+        this.length = (5/4)*this.size;
         this.pos=createVector();
         this.maxSpeed = 3;
         this.maxForce = .2;

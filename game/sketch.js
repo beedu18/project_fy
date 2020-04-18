@@ -3,47 +3,18 @@ var elements = [];
 var type = [true,false];
 var bg; 
 var paused = false;
+const headConstant = 20/1366;
+const elementConstant = 25/1366;
 
 function preload() {
     bg = createImg('../resources/bg2.jpg');
 }
 
-function keyPressed() {
-    //spacebar
-    if (keyCode==32) {
-        if(paused){
-            paused=false;
-            loop();
-        }
-        else{
-            paused=true;
-            noLoop();
-        }
-    } 
-}function keyPressed() {
-    //spacebar
-    if (keyCode==32) {
-        if(paused){
-            paused=false;
-            loop();
-        }
-        else{
-            paused=true;
-            noLoop();
-        }
-    } 
-}
-
 function setup() {
-    agents.push(new Agent(random(width),random(height)));
-    var canvas = createCanvas(1000, 600);
+    var canvas = createCanvas(window.innerWidth, window.innerHeight);
+    agents.push(new Agent(width/2, height/2, headConstant*width));
     for(let i=0; i<25; i++) {
-        elements.push(new Element(
-                                random(0.05*width, 0.95*width),
-                                random(0.05*height, 0.95*height),
-                                type[Math.floor(Math.random()*type.length)]
-                                )
-                    );
+        addNewElement(0.5);
     }
     bg.size(width,height);
     bg.position(0,0);
@@ -53,14 +24,9 @@ function setup() {
 function draw() {
     clear();
 
-    if(frameCount % 60==0) {
-        elements.push(new Element(
-                                random(0.05*width, 0.95*width),
-                                random(0.05*height, 0.95*height),
-                                type[Math.floor(Math.random()*type.length)]
-                                )
-                    );
-    }
+    if(frameCount % 60==0) 
+        addNewElement(0.5);
+    
 
     for(var elem of elements) {
         elem.show();
@@ -92,4 +58,14 @@ function keyPressed() {
             noLoop();
         }
     } 
+}
+
+function addNewElement(probabilityForFood) {
+    let x = random(width);
+    let y = random(height);
+    let p = Math.random();
+    if(p<=probabilityForFood)
+        elements.push(new Element(x,y,true,elementConstant*width));
+    else
+        elements.push(new Element(x,y,false,elementConstant*width));
 }
