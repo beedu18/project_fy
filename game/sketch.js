@@ -2,9 +2,36 @@ var agents = [];
 var elements = [];
 var type = [true,false];
 var bg; 
+var paused = false;
 
 function preload() {
     bg = createImg('../resources/bg2.jpg');
+}
+
+function keyPressed() {
+    //spacebar
+    if (keyCode==32) {
+        if(paused){
+            paused=false;
+            loop();
+        }
+        else{
+            paused=true;
+            noLoop();
+        }
+    } 
+}function keyPressed() {
+    //spacebar
+    if (keyCode==32) {
+        if(paused){
+            paused=false;
+            loop();
+        }
+        else{
+            paused=true;
+            noLoop();
+        }
+    } 
 }
 
 function setup() {
@@ -51,4 +78,18 @@ function draw() {
         if(agents[i].health<=0)
             agents.splice(i,1);
     }
+}
+
+function keyPressed() {
+    //spacebar
+    if (keyCode==32) {
+        if(paused){
+            paused=false;
+            loop();
+        }
+        else{
+            paused=true;
+            noLoop();
+        }
+    } 
 }

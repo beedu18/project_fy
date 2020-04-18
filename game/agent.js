@@ -13,6 +13,7 @@ class Agent {
         this.maxSpeed = 3;
         this.maxForce = .2;
         this.health = 50;
+        this.maxHealth = 100;
     }
 
     //Steering force = Desired - current
@@ -64,6 +65,8 @@ class Agent {
         this.trails.push(this.temp);        
         if(this.trails.length>this.length)
             this.trails.splice(0,1);    
+
+        this.health-=0.06;
     }
 
     show() {
@@ -88,7 +91,7 @@ class Agent {
             if (d<=this.size/2+elements[i].dimension/2) {
                 if(elements[i].food) {
                     if(this.health<50) {
-                        this.health+=1;
+                        this.health+=5;
                     }
                 }
                 else {
@@ -100,7 +103,7 @@ class Agent {
     }
 
     healthBar(x,y) {
-        let fraction = this.health/50;
+        let fraction = this.health/this.maxHealth;
         let currentColor = lerpColor(color(255,0,0),color(0,255,0),fraction);
         let b = 15;
         let l = 200;

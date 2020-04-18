@@ -20,13 +20,7 @@ class Element {
     }
 
     vibrate() {
-        if(this.food) {
-            this.x+=random(-1,1);
-            this.y+=random(-1,1);
-        }
-        else {
-            this.x+=random(-1,1);
-            this.y+=random(-1,1);
-        }
+        this.x+=random(-3,3);
+        this.y+=random(-3,3);
     }
 }
