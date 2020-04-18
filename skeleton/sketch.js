@@ -9,27 +9,16 @@ function setup() {
     for(let i=0; i<10; i++) 
         agents.push(new Agent(random(width),random(height)));
     
-    for(let i=0; i<400; i++) {
-        elements.push(new Element(
-                                random(0.05*width, 0.95*width),
-                                random(0.05*height, 0.95*height),
-                                type[Math.floor(Math.random()*type.length)]
-                                )
-                    );
-    }
+    for(let i=0; i<400; i++) 
+        addNewElement(0.5);
 }
 
 function draw() {
     background(50);
 
-    if(frameCount%60 == 0) {
-        elements.push(new Element(
-                                random(0.05*width, 0.95*width),
-                                random(0.05*height, 0.95*height),
-                                type[Math.floor(Math.random()*type.length)]
-                                )
-                    );
-    }
+    if(frameCount%60 == 0) 
+        addNewElement(0.5);
+    
 
     for(var elem of elements) {
         elem.show();
@@ -60,4 +49,15 @@ function keyPressed() {
             noLoop();
         }
     } 
+}
+
+function addNewElement(probabilityForFood) {
+    let p = Math.random();
+    let x = random(width);
+    let y = random(height);
+    if(p<=probabilityForFood) 
+        elements.push(new Element(x,y,true));
+    
+    else
+        elements.push(new Element(x,y,false))
 }
