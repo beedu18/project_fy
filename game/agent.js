@@ -74,7 +74,6 @@ class Agent {
             ellipse(this.pos.x,this.pos.y,i/3);
         }
         ellipse(this.position.x,this.position.y,this.size);
-        console.log(this.health);
     }
 
     naturalMovement() {

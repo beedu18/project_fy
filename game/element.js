@@ -2,20 +2,21 @@ class Element {
     constructor(x,y,food) {
         this.x=x;
         this.y=y;
-        this.dimension=15;
+        this.dimension=20;
         this.food=food; //true => food, false => poison
+        this.health = loadImage('../resources/health.png');
+        this.poison = loadImage('../resources/poison.png');
     }
 
     show() {
         noStroke();
         if(this.food) { 
-            fill(0,255,0);
+            image(this.health,this.x-this.dimension/2, this.y-this.dimension/2, this.dimension, this.dimension);
         }
             
         else {
-            fill(255,0,0);
+            image(this.poison,this.x-this.dimension/2, this.y-this.dimension/2, this.dimension, this.dimension);
         }
-        ellipse(this.x,this.y,this.dimension);
     }
 
     vibrate() {

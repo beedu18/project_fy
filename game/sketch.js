@@ -1,7 +1,11 @@
 var agents = [];
 var elements = [];
 var type = [true,false];
-var bg 
+var bg; 
+
+function preload() {
+    bg = createImg('../resources/bg2.jpg');
+}
 
 function setup() {
     agents.push(new Agent(random(width),random(height)));
@@ -14,11 +18,14 @@ function setup() {
                                 )
                     );
     }
+    bg.size(width,height);
+    bg.position(0,0);
+    bg.style('z-index: -1');
 }
 
 function draw() {
-    background(0);
-    // Add new food/poison after each 150 frames
+    clear();
+
     if(frameCount % 60==0) {
         elements.push(new Element(
                                 random(0.05*width, 0.95*width),
