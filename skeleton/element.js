@@ -6,6 +6,7 @@ class Element {
         this.food = food; //true => food, false => poison
         this.xoff = random(100);
         this.spd = 2.5;
+        this.lifetime=1000;
     }
 
     show() {
@@ -24,6 +25,7 @@ class Element {
         this.x += map(noise(this.xoff),0,1,-this.spd,this.spd);
         this.y += map(noise(this.xoff+100),0,1,-this.spd,this.spd);
         this.xoff += 0.01;
+        this.lifetime -= 1;
     }
 
     edge() {

@@ -26,12 +26,14 @@ function draw() {
     
     population.reproduceBest();
 
-    for(var elem of elements) {
-        elem.show();
-        elem.vibrate();
-        elem.edge();
+    for(let i=elements.length-1; i>=0; i--) {
+        elements[i].show();
+        elements[i].vibrate();
+        elements[i].edge();
+        if(elements[i].lifetime<=0)
+            elements.splice(i,1);
     } 
-    
+    console.log(elements.length);
     if(agents.length==0){
         elements=[];
         // worms.splice(0,worms.length);

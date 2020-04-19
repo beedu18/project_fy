@@ -27,10 +27,12 @@ function draw() {
     if(frameCount % 60==0) 
         addNewElement(0.5);
     
-
-    for(var elem of elements) {
-        elem.show();
-        elem.vibrate();
+    for(let i=elements.length-1; i>=0; i--) {
+        elements[i].show();
+        elements[i].vibrate();
+        elements[i].edge();
+        if(elements[i].lifetime<=0)
+            elements.splice(i,1);
     } 
     
     for(let i=agents.length-1; i>=0; i--) {
