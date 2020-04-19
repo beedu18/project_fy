@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Skeleton</title>
+
+	<script src="../resources/p5.js"></script>
+	<script src="../resources/p5.dom.js"></script>
+	<script src="population.js"></script>
+	<script src="agent.js"></script>
+	<script src="element.js"></script>
+	<script src="sketch.js"></script>
+	<style>
+		body {
+			margin:0;
+			padding:0;
+			overflow: hidden;
+		}
+		canvas {
+			margin:auto;
+		}
+		#container {
+            background: #fff0;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border: 2px solid black;
+            width: 300px;
+            font-family: times new roman;
+            padding-left: 20px;
+            padding-bottom: 20px;
+            font-size: 18px;
+            visibility: visible;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+        <h2><u>Statistics</u></h2>
+        <span><b>Frame Rate: </b>
+        </span><span id="frate">frate</span><br>
+        <span><b>Frames Passed: </b>
+        </span><span id="fp">fp</span><br><br>
+        <span><b><u>Record</u></b></span><br>
+        &emsp;<span><b>Frames Required: </b>
+        </span><span id="fr">rgp</span><br>
+    	&emsp;<span><b>Fitness:</b></span>
+        <span id="rf">rf</span><br>
+        &emsp;<span><b>Total Elements Consumed:</b></span>
+        <span id="rt">rt</span><br>      
+        &emsp;<span><b>Accuracy:</b></span>
+        <span id="ra">ra</span><br>      
+        &emsp;<span><b>Gene Structure</b></span><br>
+            &emsp;&emsp;&emsp; <b>Food Scale: </b><span id="rgf">rgf</span><br>
+            &emsp;&emsp;&emsp; <b>Poison Scale: </b><span id="rgp">rgp</span>
+        <br><br>
+        <button id="rg" onclick="">Export Gene</button>
+        <br><br>
+        <span><b><u>Current</u></b></span><br>
+        &emsp;<span><b>Maximum Fitness:</b></span>
+        <span id="mf">mf</span><br>
+        &emsp;<span><b>Total Elements Consumed:</b></span>
+        <span id="ct">ct</span><br>
+        &emsp;<span><b>Accuracy:</b></span>
+        <span id="ca">ra</span><br>     
+        &emsp;<span><b>Current Gene Structure</b></span><br>
+            &emsp;&emsp;&emsp; <b>Food Scale: </b><span id="cgf">cgf</span><br>
+            &emsp;&emsp;&emsp; <b>Poison Scale: </b><span id="cgp">cgp</span>
+        <br><br>
+        <button id="cg" onclick="">Export Gene</button>
+</body>
+</html>
