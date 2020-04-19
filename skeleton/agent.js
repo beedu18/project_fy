@@ -1,5 +1,5 @@
 class Agent {
-    constructor(x, y, col=color(0,255,236), s=17) {
+    constructor(x, y, s=17, gene = [random(-2,2), random(-2,2)], col=color(0,255,236)) {
         this.position = createVector(x,y);
         this.velocity = p5.Vector.random2D();
         this.velocity.setMag(random(2,3));
@@ -11,6 +11,7 @@ class Agent {
         this.maxForce = .2;
         this.health = 50;
         this.maxHealth = 100;
+        this.gene = gene;
     }
 
     //Steering force = Desired - current
@@ -70,7 +71,12 @@ class Agent {
         }
 
         if(closest>-1) {
-            this.applyForce(this.seek(elements[closest]));
+            var steering = this.seek(elements[closest]);
+            if(elements[closest].food)
+                steering.mult(this.gene[0]);
+            else
+                steering.mult(this.gene[1]);
+            this.applyForce(steering);
             
             if(minDist<=this.size/2+elements[closest].dimension/2) {
                 if(elements[closest].food)
