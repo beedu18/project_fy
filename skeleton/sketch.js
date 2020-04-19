@@ -46,8 +46,15 @@ function draw() {
         agents[i].edge();
         agents[i].move();
         agents[i].eat(elements);
-        if(agents[i].health<=0)
+        if(agents[i].health<=0) {
+            let x = agents[i].position.x;
+            let y = agents[i].position.y;
+            for(let i=0;i<5; i++) {
+                elements.push(new Element(x,y,true));
+                elements.push(new Element(x,y,false));
+            }
             agents.splice(i,1);
+        }
     }
 }
 
