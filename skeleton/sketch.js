@@ -1,7 +1,7 @@
 var agents = [];
 var elements = [];
-var type = [true,false];
 var paused = false;
+var population;
 
 function setup() {
     var canvas = createCanvas(1000, 600);
@@ -11,14 +11,17 @@ function setup() {
     
     for(let i=0; i<400; i++) 
         addNewElement(0.5);
+
+    population = new Population();    
 }
 
 function draw() {
     background(50);
-
+    population.maxFitness();
     if(frameCount%60 == 0) 
         addNewElement(0.5);
     
+    population.reproduceBest();
 
     for(var elem of elements) {
         elem.show();

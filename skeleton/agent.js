@@ -12,6 +12,11 @@ class Agent {
         this.health = 50;
         this.maxHealth = 100;
         this.gene = gene;
+        this.h = 1;
+    }
+
+    calcFitness() {
+        return this.health;
     }
 
     //Steering force = Desired - current
@@ -56,6 +61,15 @@ class Agent {
         strokeWeight(1);
         fill(currentColor);
         ellipse(this.position.x,this.position.y,this.size);
+    }
+
+    highlight() {
+        this.h+=1;
+        this.h%=10;
+        stroke(255);
+        strokeWeight(this.h);
+        noFill();
+        ellipse(this.position.x, this.position.y, this.size);
     }
 
     eat(elements) {
