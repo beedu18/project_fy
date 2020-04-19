@@ -21,7 +21,20 @@ class Population {
             if(this.bestAgent.calcFitness() > this.recordFitness){
                 this.recordAgent = this.bestAgent;
                 this.recordFitness = this.bestAgent.calcFitness();
+                let accuracy = 100*this.recordAgent.foodEaten/(this.recordAgent.foodEaten + this.recordAgent.poisonEaten);
+                document.getElementById("rf").innerHTML = this.recordFitness.toFixed(5);
+                document.getElementById("fr").innerHTML = frameCount;
+                document.getElementById("rt").innerHTML = this.recordAgent.foodEaten + this.recordAgent.poisonEaten;
+                document.getElementById("ra").innerHTML = accuracy.toFixed(3)+' %';
+                document.getElementById("rgf").innerHTML = this.recordAgent.gene[0].toFixed(5);
+                document.getElementById("rgp").innerHTML = this.recordAgent.gene[1].toFixed(5);
             }
+            let accuracy = 100*this.bestAgent.foodEaten/(this.bestAgent.foodEaten + this.bestAgent.poisonEaten);
+            document.getElementById("mf").innerHTML = this.bestAgent.calcFitness().toFixed(5);
+            document.getElementById("ct").innerHTML = this.bestAgent.foodEaten + this.bestAgent.poisonEaten;
+            document.getElementById("ca").innerHTML = accuracy.toFixed(3)+' %';
+            document.getElementById("cgf").innerHTML = this.bestAgent.gene[0].toFixed(5);
+            document.getElementById("cgp").innerHTML = this.bestAgent.gene[1].toFixed(5);
         }
     }
 
@@ -31,15 +44,15 @@ class Population {
         else{
             if(this.bestAgent.health<=0.2) {
                 agents.push(this.bestAgent.cloneWithTweaks());
-                agents.push(this.bestAgent.cloneWithTweaks());
+                // agents.push(this.bestAgent.cloneWithTweaks());
                 console.log("Reproduction!");
             }
         }
     }
 
-    massReproducion() {
+    massReproduction() {
         //Add 20 new agents
-        for(let i=0; i<20; i++) {
+        for(let i=0; i<30; i++) {
             let newGene = [
                 // this.bestAgent.gene[0] + random(-0.01, 0.01),
                 // this.bestAgent.gene[1] + random(-0.01, 0.01)

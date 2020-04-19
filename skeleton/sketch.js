@@ -6,19 +6,22 @@ var population;
 function setup() {
     var canvas = createCanvas(1000, 600);
     
-    for(let i=0; i<10; i++) 
+    for(let i=0; i<30; i++) 
         agents.push(new Agent(random(width),random(height)));
     
-    for(let i=0; i<400; i++) 
+    for(let i=0; i<500; i++) 
         addNewElement(0.5);
 
     population = new Population();    
 }
 
 function draw() {
+    document.getElementById("frate").innerHTML = frameRate().toFixed(0);
+    document.getElementById("fp").innerHTML = frameCount;
     background(50);
+
     population.maxFitness();
-    if(frameCount%60 == 0) 
+    if(frameCount%5 == 0) 
         addNewElement(0.5);
     
     population.reproduceBest();
@@ -29,6 +32,15 @@ function draw() {
         elem.edge();
     } 
     
+    if(agents.length==0){
+        elements=[];
+        // worms.splice(0,worms.length);
+        population.massReproduction();
+        for(let i=0; i<500; i++) {
+            addNewElement(0.5);
+        }
+    }
+
     for(let i=agents.length-1; i>=0; i--) {
         agents[i].show();
         agents[i].edge();

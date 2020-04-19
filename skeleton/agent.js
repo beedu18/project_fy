@@ -1,5 +1,5 @@
 class Agent {
-    constructor(x, y, s=17, gene = [random(-2,2), random(-2,2)], col=color(0,255,236)) {
+    constructor(x, y, gene = [random(-2,2), random(-2,2)], s=17, col=color(0,255,236)) {
         this.position = createVector(x,y);
         this.velocity = p5.Vector.random2D();
         this.velocity.setMag(random(2,3));
@@ -13,10 +13,34 @@ class Agent {
         this.maxHealth = 100;
         this.gene = gene;
         this.h = 1;
+        this.foodEaten = 0;
+        this.poisonEaten = 1;
+        this.nutrition = 0;
+        this.count = 0;
+        this.cycle = 0;
     }
 
     calcFitness() {
-        return this.health;
+        //uncomment any of the following to change fitness value
+        
+        // return this.cycle;
+        // return this.health;
+        // return this.food/(this.foodEaten + this.poisonEaten);
+        return (this.cycle + this.foodEaten/(this.foodEaten + this.poisonEaten));
+        // return (this.cycle + this.foodEaten/(3*this.poisonEaten));
+        // return (this.cycle + this.foodEaten - 2*this.poisonEaten);
+        // return 100*(2-(this.maxHealth/this.health));
+        // return this.cycle+(this.health/this.maxHealth);
+    }
+
+    cloneWithTweaks() {
+        let x = this.position.x;
+        let y = this.position.y;
+        let gene = [
+                this.gene[0]+random(-0.05, 0.05),
+                this.gene[1]+random(-0.05, 0.05)
+            ];
+        return new Agent(x, y, gene);
     }
 
     //Steering force = Desired - current
@@ -51,7 +75,13 @@ class Agent {
         this.velocity.limit(this.maxSpeed);  
         this.acceleration.mult(0);  
 
-        this.health-=0.06;
+        this.health-=0.1;
+        
+        this.count+=1;
+        this.count%=500;
+
+        if(this.count%500==0)
+            this.cycle+=1;
     }
 
     show() {
@@ -93,11 +123,16 @@ class Agent {
             this.applyForce(steering);
             
             if(minDist<=this.size/2+elements[closest].dimension/2) {
-                if(elements[closest].food)
+                if(elements[closest].food) {
                     this.health+=5;
-                else
+                    this.foodEaten+=1;
+                }
+                else {
                     this.health-=5;
+                    this.poisonEaten+=1;
+                }
                 elements.splice(closest,1);
+                this.nutrition = this.foodEaten - this.poisonEaten;
             }
         }
 
