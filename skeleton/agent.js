@@ -14,32 +14,18 @@ class Agent {
     }
 
     //Steering force = Desired - current
-    manualMovement() {
-        let Steering = createVector();
-        if(keyIsDown(LEFT_ARROW)) {
-            Steering.add(0,this.position.y);    //Desired
-            this.commonSteeringModifications(Steering);
-        }
-        if(keyIsDown(RIGHT_ARROW)) {
-            Steering.add(width,this.position.y);
-            this.commonSteeringModifications(Steering);
-        }
-        if(keyIsDown(UP_ARROW)) {
-            Steering.add(this.position.x,0);
-            this.commonSteeringModifications(Steering);
-        }
-        if(keyIsDown(DOWN_ARROW)) {
-            Steering.add(this.position.x,height);
-            this.commonSteeringModifications(Steering);
-        }
-    }
-
-    commonSteeringModifications(Steering) {
-        Steering.sub(this.position);    //Desired - Current
+    seek(target) {
+        let Steering = createVector(0,0);
+        Steering.add(createVector(target.x, target.y));
+        Steering.sub(this.position);
         Steering.setMag(this.maxSpeed);
         Steering.sub(this.velocity);
         Steering.limit(this.maxForce);
-        this.acceleration.add(Steering);
+        return Steering;
+    }
+
+    applyForce(force) {
+        this.acceleration.add(force);
     }
 
     edge() {
@@ -56,7 +42,8 @@ class Agent {
     move() {
         this.position.add(this.velocity);
         this.velocity.add(this.acceleration);
-        this.velocity.limit(this.maxSpeed);    
+        this.velocity.limit(this.maxSpeed);  
+        this.acceleration.mult(0);  
 
         this.health-=0.06;
     }
@@ -70,26 +57,29 @@ class Agent {
         ellipse(this.position.x,this.position.y,this.size);
     }
 
-    naturalMovement() {
-        this.position.x += random(-.7,.7);
-        this.position.y += random(-.7,.7);
-    }
-
     eat(elements) {
-        var d=[];
+        var d;
+        var minDist = Infinity;
+        var closest = -1;
         for(var i=elements.length-1; i>=0; i--) {
             d=dist(this.position.x, this.position.y, elements[i].x, elements[i].y);
-            if (d<=this.size/2+elements[i].dimension/2) {
-                if(elements[i].food) {
-                    if(this.health<50) {
-                        this.health+=5;
-                    }
-                }
-                else {
-                    this.health-=5;
-                }
-                elements.splice(i,1);
+            if(d<minDist) {
+                minDist = d;
+                closest = i;
             }
         }
+
+        if(closest>-1) {
+            this.applyForce(this.seek(elements[closest]));
+            
+            if(minDist<=this.size/2+elements[closest].dimension/2) {
+                if(elements[closest].food)
+                    this.health+=5;
+                else
+                    this.health-=5;
+                elements.splice(closest,1);
+            }
+        }
+
     }
 }

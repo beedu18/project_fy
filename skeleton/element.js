@@ -25,4 +25,15 @@ class Element {
         this.y += map(noise(this.xoff+100),0,1,-this.spd,this.spd);
         this.xoff += 0.01;
     }
+
+    edge() {
+        if(this.x>width-this.dimension/2)
+            this.x = this.dimension/2;
+        if(this.x<this.dimension/2)
+            this.x = width-this.dimension/2;
+        if(this.y>height-this.dimension/2)
+            this.y = this.dimension/2;
+        if(this.y<this.dimension/2)
+            this.y = height-this.dimension/2;
+    }
 }

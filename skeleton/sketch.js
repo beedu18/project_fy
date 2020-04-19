@@ -23,14 +23,13 @@ function draw() {
     for(var elem of elements) {
         elem.show();
         elem.vibrate();
+        elem.edge();
     } 
     
     for(let i=agents.length-1; i>=0; i--) {
         agents[i].show();
         agents[i].edge();
-        agents[i].manualMovement();
         agents[i].move();
-        agents[i].naturalMovement();
         agents[i].eat(elements);
         if(agents[i].health<=0)
             agents.splice(i,1);
