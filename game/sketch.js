@@ -1,4 +1,4 @@
-var agents = [];
+var ai = null, player = null;
 var elements = [];
 var type = [true,false];
 var bg; 
@@ -13,7 +13,8 @@ function preload() {
 
 function setup() {
     var canvas = createCanvas(window.innerWidth, window.innerHeight);
-    agents.push(new Agent(width/2, height/2, headConstant*width));
+    ai = new Agent(width/2, height/2, headConstant*width, color(112,255,0));
+    player = new Agent(width/2, height/2, headConstant*width, color(255,112,0));
     for(let i=0; i<25; i++) {
         addNewElement(0.5);
     }
@@ -25,7 +26,7 @@ function setup() {
 function draw() {
     clear();
 
-    if(frameCount % 60==0) 
+    if(frameCount % 20==0) 
         addNewElement(0.5);
     
     for(let i=elements.length-1; i>=0; i--) {
@@ -35,17 +36,30 @@ function draw() {
         if(elements[i].lifetime<=0)
             elements.splice(i,1);
     } 
+        
+    //Render Player
+    if(player!=null) {
+        player.healthBar(width*(1-lengthConstant-headConstant), headConstant*width, "PLAYER");
+        player.edge();
+        player.manualMovement();
+        player.move();
+        player.naturalMovement();
+        player.eat(elements);
+        player.show();
+        if(player.health<=0)
+            player = null;
+    }
     
-    for(let i=agents.length-1; i>=0; i--) {
-        agents[i].healthBar(width*(1-lengthConstant-headConstant), headConstant*width, "PLAYER");
-        agents[i].edge();
-        agents[i].manualMovement();
-        agents[i].move();
-        agents[i].naturalMovement();
-        agents[i].eat(elements);
-        agents[i].show();
-        if(agents[i].health<=0)
-            agents.splice(i,1);
+    //Render AI
+    if(ai!=null) {
+        ai.healthBar(width*headConstant, headConstant*width, "AI");
+        ai.edge();
+        ai.aiMovement();
+        ai.move();
+        ai.naturalMovement();
+        ai.show();
+        if(ai.health<=0)
+            ai = null;
     }
 }
 

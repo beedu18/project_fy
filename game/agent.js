@@ -11,39 +11,78 @@ class Agent {
         this.length = (5/4)*this.size;
         this.pos=createVector();
         this.maxSpeed = 3;
-        this.maxForce = .2;
+        this.maxForce = .4;
         this.health = 50;
         this.maxHealth = 100;
         this.h = 0;
+        this.gene = [1.2,-1.2];
     }
 
     //Steering force = Desired - current
     manualMovement() {
         let Steering = createVector();
-        if(keyIsDown(LEFT_ARROW)) {
-            Steering.add(0,this.position.y);    //Desired
-            this.commonSteeringModifications(Steering);
-        }
-        if(keyIsDown(RIGHT_ARROW)) {
-            Steering.add(width,this.position.y);
-            this.commonSteeringModifications(Steering);
-        }
-        if(keyIsDown(UP_ARROW)) {
-            Steering.add(this.position.x,0);
-            this.commonSteeringModifications(Steering);
-        }
-        if(keyIsDown(DOWN_ARROW)) {
-            Steering.add(this.position.x,height);
-            this.commonSteeringModifications(Steering);
-        }
+        if(keyIsDown(LEFT_ARROW)) 
+            Steering = this.seek(createVector(0,this.position.y));    //Desired
+        
+        if(keyIsDown(RIGHT_ARROW)) 
+            Steering = this.seek(createVector(width,this.position.y));
+        
+        if(keyIsDown(UP_ARROW)) 
+            Steering = this.seek(createVector(this.position.x,0));
+        
+        if(keyIsDown(DOWN_ARROW)) 
+            Steering = this.seek(createVector(this.position.x,height));
+        
+        this.applyForce(Steering);
     }
 
-    commonSteeringModifications(Steering) {
-        Steering.sub(this.position);    //Desired - Current
-        Steering.setMag(this.maxSpeed);
+    seek(target) {
+        let Steering = createVector(0,0);
+        Steering.add(createVector(target.x, target.y));
+        Steering.sub(this.position);
+        Steering.setMag(this.maxSpeed);    
         Steering.sub(this.velocity);
-        Steering.limit(this.maxForce);
-        this.acceleration.add(Steering);
+        Steering.limit(this.maxForce);          
+        return Steering;
+    }
+
+    applyForce(force) {
+        this.acceleration.add(force);
+    }
+
+    aiMovement() {
+        var d;
+        var minDist = Infinity;
+        var closest = -1;
+        for(var i=elements.length-1; i>=0; i--) {
+            d=dist(this.position.x, this.position.y, elements[i].x, elements[i].y);
+            if(d<minDist) {
+                minDist = d;
+                closest = i;
+            }
+        }
+
+        if(closest>-1) {
+            var steering = this.seek(elements[closest]);
+            if(elements[closest].food)
+                steering.mult(this.gene[0]);
+            else
+                steering.mult(this.gene[1]);
+            this.applyForce(steering);
+            
+            if(minDist<=this.size/2+elements[closest].dimension/2) {
+                if(elements[closest].food) {
+                    this.health+=5;
+                    this.foodEaten+=1;
+                }
+                else {
+                    this.health-=5;
+                    this.poisonEaten+=1;
+                }
+                elements.splice(closest,1);
+                this.nutrition = this.foodEaten - this.poisonEaten;
+            }
+        }
     }
 
     edge() {
@@ -58,16 +97,17 @@ class Agent {
     }
     
     move() {
-        this.position.add(this.velocity);
         this.velocity.add(this.acceleration);
         this.velocity.limit(this.maxSpeed);
-
+        this.position.add(this.velocity);
+        this.acceleration.mult(0);
+        
+        this.health-=0.05;
+        
         this.temp=createVector(this.position.x,this.position.y);
         this.trails.push(this.temp);        
         if(this.trails.length>this.length)
             this.trails.splice(0,1);    
-
-        this.health-=0.05;
     }
 
     show() {
