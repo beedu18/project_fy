@@ -5,6 +5,7 @@ var bg;
 var paused = false;
 const headConstant = 20/1366;
 const elementConstant = 25/1366;
+const lengthConstant = 200/1366;
 
 function preload() {
     bg = createImg('../resources/bg2.jpg');
@@ -36,7 +37,7 @@ function draw() {
     } 
     
     for(let i=agents.length-1; i>=0; i--) {
-        agents[i].healthBar(width*0.75,10);
+        agents[i].healthBar(width*(1-lengthConstant-headConstant), headConstant*width, "PLAYER");
         agents[i].edge();
         agents[i].manualMovement();
         agents[i].move();
