@@ -32,6 +32,18 @@ class Agent {
         
         if(keyIsDown(DOWN_ARROW)) 
             Steering = this.seek(createVector(this.position.x,height));
+
+        if(keyIsDown(UP_ARROW) && keyIsDown(RIGHT_ARROW))
+            Steering = this.seek(createVector(this.position.x+20,this.position.y-20));
+
+        if(keyIsDown(UP_ARROW) && keyIsDown(LEFT_ARROW))
+            Steering = this.seek(createVector(this.position.x-20,this.position.y-20));
+        
+        if(keyIsDown(DOWN_ARROW) && keyIsDown(RIGHT_ARROW))
+            Steering = this.seek(createVector(this.position.x+20,this.position.y+20));
+        
+        if(keyIsDown(DOWN_ARROW) && keyIsDown(LEFT_ARROW))
+            Steering = this.seek(createVector(this.position.x-20,this.position.y+20));
         
         this.applyForce(Steering);
     }
