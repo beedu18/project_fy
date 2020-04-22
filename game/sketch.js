@@ -15,9 +15,7 @@ function setup() {
     var canvas = createCanvas(window.innerWidth, window.innerHeight);
     ai = new Agent(width/2, height/2, headConstant*width, color(112,255,0));
     player = new Agent(width/2, height/2, headConstant*width, color(255,112,0));
-    for(let i=0; i<25; i++) {
-        addNewElement(0.5);
-    }
+    addNewElement(0.5,25);
     bg.size(width,height);
     bg.position(0,0);
     bg.style('z-index: -1');
@@ -27,7 +25,7 @@ function draw() {
     clear();
 
     if(frameCount % 20==0) 
-        addNewElement(0.5);
+        addNewElement(0.5,1);
     
     for(let i=elements.length-1; i>=0; i--) {
         elements[i].show();
@@ -36,7 +34,7 @@ function draw() {
         if(elements[i].lifetime<=0)
             elements.splice(i,1);
     } 
-        
+    console.log(elements.length);
     //Render Player
     if(player!=null) {
         player.healthBar(width*(1-lengthConstant-headConstant), headConstant*width, "PLAYER");
@@ -77,12 +75,15 @@ function keyPressed() {
     } 
 }
 
-function addNewElement(probabilityForFood) {
-    let x = random(width);
-    let y = random(height);
-    let p = Math.random();
-    if(p<=probabilityForFood)
-        elements.push(new Element(x,y,true,elementConstant*width));
-    else
-        elements.push(new Element(x,y,false,elementConstant*width));
+function addNewElement(probabilityForFood, iterations) {
+    for(let i=0; i<iterations; i++) {
+        let x = random(width);
+        let y = random(height);
+        let p = Math.random();
+
+        if(p<=probabilityForFood)
+            elements.push(new Element(x,y,true,elementConstant*width));
+        else
+            elements.push(new Element(x,y,false,elementConstant*width));
+    }
 }

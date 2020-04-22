@@ -84,15 +84,13 @@ class Agent {
             
             if(minDist<=this.size/2+elements[closest].dimension/2) {
                 if(elements[closest].food) {
-                    this.health+=5;
-                    this.foodEaten+=1;
+                    if(this.health<=this.maxHealth-5)
+                        this.health+=5;
                 }
                 else {
                     this.health-=5;
-                    this.poisonEaten+=1;
                 }
                 elements.splice(closest,1);
-                this.nutrition = this.foodEaten - this.poisonEaten;
             }
         }
     }
@@ -143,7 +141,7 @@ class Agent {
             d=dist(this.position.x, this.position.y, elements[i].x, elements[i].y);
             if (d<=this.size/2+elements[i].dimension/2) {
                 if(elements[i].food) {
-                    if(this.health<50) {
+                    if(this.health<=this.maxHealth-5) {
                         this.health+=5;
                     }
                 }

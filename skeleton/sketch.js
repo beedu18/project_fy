@@ -2,15 +2,15 @@ var agents = [];
 var elements = [];
 var paused = false;
 var population;
+var statistics = [];
 
 function setup() {
     var canvas = createCanvas(1000, 600);
     
     for(let i=0; i<30; i++) 
         agents.push(new Agent(random(width),random(height)));
-    
-    for(let i=0; i<500; i++) 
-        addNewElement(0.5);
+     
+    addNewElement(0.5, 500);
 
     population = new Population();    
 }
@@ -22,7 +22,7 @@ function draw() {
 
     population.maxFitness();
     if(frameCount%5 == 0) 
-        addNewElement(0.5);
+        addNewElement(0.5,1);
     
     population.reproduceBest();
 
@@ -33,14 +33,12 @@ function draw() {
         if(elements[i].lifetime<=0)
             elements.splice(i,1);
     } 
-    console.log(elements.length);
+
     if(agents.length==0){
         elements=[];
         // worms.splice(0,worms.length);
         population.massReproduction();
-        for(let i=0; i<500; i++) {
-            addNewElement(0.5);
-        }
+        addNewElement(0.5, 500);
     }
 
     for(let i=agents.length-1; i>=0; i--) {
@@ -58,6 +56,12 @@ function draw() {
             agents.splice(i,1);
         }
     }
+
+    if(frameCount%10 == 0)
+        statistics.push(pushAgent(population.bestAgent, frameCount));
+    
+    if(frameCount == 1000)
+        exportLog(statistics);
 }
 
 function keyPressed() {
@@ -74,13 +78,43 @@ function keyPressed() {
     } 
 }
 
-function addNewElement(probabilityForFood) {
-    let p = Math.random();
-    let x = random(width);
-    let y = random(height);
-    if(p<=probabilityForFood) 
-        elements.push(new Element(x,y,true));
+function addNewElement(probabilityForFood, iterations) {
+    for(let i=0; i<iterations; i++) {
+        let p = Math.random();
+        let x = random(width);
+        let y = random(height);
+        if(p<=probabilityForFood) 
+            elements.push(new Element(x,y,true));
+        
+        else
+            elements.push(new Element(x,y,false))
+    }
+}
+
+function pushAgent(agent, frame) {
+    let struct = new Object();
+    struct.foodScale = parseFloat(agent.gene[0].toFixed(5));
+    struct.poisonScale = parseFloat(agent.gene[1].toFixed(5));
+    struct.y1 = parseFloat(agent.calcFitness().toFixed(3)); //fitness
+    struct.y2 = parseFloat((agent.foodEaten/(agent.foodEaten+agent.poisonEaten)).toFixed(5)); //accuracy
+    struct.y3 = parseFloat(agent.nutrition);
+    struct.y4 = parseFloat(agent.health.toFixed(3));
+    struct.x = frame;
+    return struct;
+}
+
+function exportLog(dataArray) {
+    const filename = 'data.json';
+    const jsonStr = JSON.stringify(dataArray);
     
-    else
-        elements.push(new Element(x,y,false))
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonStr));
+    element.setAttribute('download', filename);
+    
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    
+    element.click();
+    
+    document.body.removeChild(element);
 }
