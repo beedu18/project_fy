@@ -8,7 +8,7 @@ class Agent {
         this.col = col;
         this.length = 25;
         this.maxSpeed = 3;
-        this.maxForce = .2;
+        this.maxForce = .4;
         this.health = 50;
         this.maxHealth = 100;
         this.gene = gene;
@@ -23,14 +23,15 @@ class Agent {
     calcFitness() {
         //uncomment any of the following to change fitness value
         
+        return Math.random();
         // return this.cycle;
         // return this.health;
         // return this.food/(this.foodEaten + this.poisonEaten);
-        return (this.cycle + this.foodEaten/(this.foodEaten + this.poisonEaten));
+        // return (this.cycle + this.foodEaten/(this.foodEaten + this.poisonEaten));
         // return (this.cycle + this.foodEaten/(3*this.poisonEaten));
         // return (this.cycle + this.foodEaten - 2*this.poisonEaten);
         // return 100*(2-(this.maxHealth/this.health));
-        // return this.cycle+(this.health/this.maxHealth);
+        // return this.cycle+this.nutrition;
     }
 
     cloneWithTweaks() {
@@ -124,7 +125,8 @@ class Agent {
             
             if(minDist<=this.size/2+elements[closest].dimension/2) {
                 if(elements[closest].food) {
-                    this.health+=5;
+                    if(this.health<=this.maxHealth-5)
+                        this.health+=5;
                     this.foodEaten+=1;
                 }
                 else {

@@ -60,7 +60,7 @@ function draw() {
     if(frameCount%10 == 0)
         statistics.push(pushAgent(population.bestAgent, frameCount));
     
-    if(frameCount == 1000)
+    if(frameCount == 10000)
         exportLog(statistics);
 }
 
