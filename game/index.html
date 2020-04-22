@@ -19,10 +19,65 @@
 			overflow: hidden;
 		}
 		canvas {
-			margin:auto;
+			top: 0px;
 		}
+		.container {
+    	    padding: 5px;
+    	    background: #0000;
+  			width:100%;
+     		position:fixed;
+     		bottom:2px;
+     		text-align:center;
+     		/*z-index:-5;*/
+    	}
+		button {
+    	    color: #fff5;
+    	    text-transform: uppercase;
+    	    font-weight: bold;
+    	    letter-spacing: 1px;
+    	    background: #246BAD55;
+    	    font-size: 15px;
+    	    padding: 10px 20px 10px 20px;
+    	    border-radius: 10px;
+    	    display: inline-block;
+    	    border: none;
+    	    transition: all 0.2s ease 0s;
+    	}
+    	button:hover {
+			color: #fff;
+    	    background: #2E88DC;
+    	    letter-spacing: 3px;
+    	    -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+    	    -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+    	    box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+    	    transition: all 0.2s ease 0s;
+    	}
 	</style>
 </head>
 <body>
+	<div class="container">
+		<button onclick="document.getElementById('file-input').click();">import gene</button>
+		<input id="file-input" type="file" accept=".json" style="display: none;" onchange="loadFile();" />
+	</div>
+	<script type="text/javascript">
+		function loadFile() {
+  			var file = document.getElementById('file-input');
+  			var temp = file.files[0]; //select 1st file
+  			var fr = new FileReader();
+  			fr.readAsText(temp);
+  			fr.onloadend = function() {
+    			var content = fr.result;
+    			var data = JSON.parse(content);
+    			if(data != null) {
+    				ai.gene[0] = data[data.length-1].foodScale;
+    				ai.gene[1] = data[data.length-1].poisonScale;
+    				alert("Agent loaded.");
+    			}
+    			else
+    			  alert('Select a File first.');
+  			}
+  			file.value=null;
+		}
+	</script>
 </body>
 </html>

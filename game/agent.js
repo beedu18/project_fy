@@ -10,12 +10,12 @@ class Agent {
         this.trails=[];
         this.length = (5/4)*this.size;
         this.pos=createVector();
-        this.maxSpeed = 3;
-        this.maxForce = .4;
+        this.maxSpeed = 4;
+        this.maxForce = .5;
         this.health = 50;
         this.maxHealth = 100;
         this.h = 0;
-        this.gene = [1.2,-1.2];
+        this.gene = [0,0];
     }
 
     //Steering force = Desired - current
