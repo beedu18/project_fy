@@ -37,8 +37,9 @@
     <button onclick="driver('../data_files/cycle_sub_penalty.json');">cycles + penalty (s)</button>
     <button onclick="driver('../data_files/health.json');">health</button>
     <button onclick="driver('../data_files/normalized.json');">health normalized</button>
-    <button onclick="">choose data file</button>
+    <button onclick="document.getElementById('file-input').click();">choose data file</button>
     <canvas id="chart1" style="width: 100%; height: 550px;"></canvas><br><br>
     <canvas id="chart2" style="width: 100%; height: 550px;"></canvas>
+    <input id="file-input" type="file" accept=".json" style="display: none;" onchange="loadData()" />
 </body>
 </html>

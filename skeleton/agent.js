@@ -23,7 +23,7 @@ class Agent {
     calcFitness() {
         //uncomment any of the following to change fitness value
         
-        return Math.random();
+        // return Math.random();
         // return this.cycle;
         // return this.health;
         // return this.food/(this.foodEaten + this.poisonEaten);
@@ -31,7 +31,7 @@ class Agent {
         // return (this.cycle + this.foodEaten/(3*this.poisonEaten));
         // return (this.cycle + this.foodEaten - 2*this.poisonEaten);
         // return 100*(2-(this.maxHealth/this.health));
-        // return this.cycle+this.nutrition;
+        return this.cycle+this.nutrition;
     }
 
     cloneWithTweaks() {

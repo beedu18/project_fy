@@ -4,6 +4,24 @@ async function loadJSON(path) {
     return data;
 }
 
+function loadData() {
+    var file = document.getElementById('file-input');
+    var temp = file.files[0]; //select 1st file
+    var fr = new FileReader();
+    fr.readAsText(temp);
+    fr.onloadend = function() {
+        var content = fr.result;
+        var data = JSON.parse(content);
+        if(data != null) {
+            alert("Data loaded.");
+            driver(null,data);
+        }
+        else
+            alert('Select a File first.');
+    }
+    file.value=null;
+}
+
 function formatData(data) {
     var xs = [];
     var foodScale = [];
@@ -38,12 +56,25 @@ function updateChart(ctx,newConfig) {
     ctx.update();
 }
 
-function driver(dataPath) {
+async function driver(dataPath, d=null) {
+    //debugging
+    // console.log("datapath: ", dataPath);
+    // console.log("d: ", d);
     var c1x = document.getElementById('chart1').getContext('2d');
     var c2x = document.getElementById('chart2').getContext('2d');
-    loadJSON(dataPath).then(function(data) {
-        // console.log(data);
-        var usableData = formatData(data);
+    var usableData;
+    if(dataPath!=null) {
+       var data = await loadJSON(dataPath);
+       usableData = formatData(data);
+    }
+    else
+        usableData = formatData(d);
+    
+    console.log(usableData);
+
+    // loadJSON(dataPath).then(function(data) {
+    //     // console.log(data);
+    //     var usableData = formatData(data);
         var c1Config = {
             type: 'line',
             data: {
@@ -175,7 +206,5 @@ function driver(dataPath) {
         }
         var genes = new Chart(c1x, c1Config);
         var fitness = new Chart(c2x, c2Config);
-        // var accuracy = new Chart(ax, accuracyConfig);
-        // var foodEaten = new Chart(fex, foodEatenConfig);
-    });
+    // });
 }

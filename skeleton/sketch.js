@@ -3,6 +3,7 @@ var elements = [];
 var paused = false;
 var population;
 var statistics = [];
+var limit = 1000; //export data after these many frames
 
 function setup() {
     var canvas = createCanvas(1000, 600);
@@ -60,7 +61,7 @@ function draw() {
     if(frameCount%10 == 0)
         statistics.push(pushAgent(population.bestAgent, frameCount));
     
-    if(frameCount == 10000)
+    if(frameCount == limit)
         exportLog(statistics);
 }
 
