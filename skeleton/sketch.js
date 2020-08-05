@@ -3,10 +3,11 @@ var elements = [];
 var paused = false;
 var population;
 var statistics = [];
-var limit = 1000; //export data after these many frames
+var limit = 2000;       //export data after these many frames
+var frame_skip = 10;    //frames to skip 
 
 function setup() {
-    var canvas = createCanvas(1000, 600);
+    var canvas = createCanvas(window.innerWidth-350, window.innerHeight-10);
     
     for(let i=0; i<30; i++) 
         agents.push(new Agent(random(width),random(height)));
@@ -58,7 +59,10 @@ function draw() {
         }
     }
 
-    if(frameCount%10 == 0)
+    if(keyIsDown(69)) 
+        addNewElement(0.8, 1);
+
+    if(frameCount%frame_skip == 0)
         statistics.push(pushAgent(population.bestAgent, frameCount));
     
     if(frameCount == limit)
@@ -76,7 +80,7 @@ function keyPressed() {
             paused=true;
             noLoop();
         }
-    } 
+    }
 }
 
 function addNewElement(probabilityForFood, iterations) {
@@ -105,11 +109,13 @@ function pushAgent(agent, frame) {
 }
 
 function exportLog(dataArray) {
+    // console.log(dataArray);
     const filename = 'data.json';
     const jsonStr = JSON.stringify(dataArray);
-    
+    // console.log(jsonStr);
     let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonStr));
+    // // console.log(encodeURIComponent(jsonStr));
     element.setAttribute('download', filename);
     
     element.style.display = 'none';

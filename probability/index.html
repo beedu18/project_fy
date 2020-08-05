@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Probability</title>
+    <script type="text/javascript" src="../resources/p5.js"></script>
+    <script type="text/javascript" src="../resources/p5.dom.js"></script>
+    <script type="text/javascript" src="sketch.js"></script>
+    <style type="text/css">
+        body {
+            margin:0;
+            padding:0;
+            overflow: hidden;
+        }
+
+        canvas {
+            top: 0px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            height: 25px;
+            background: #666;
+            outline: none;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: red;
+            border: 2px solid #999;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: red;
+            border: 2px solid #999;
+            cursor: pointer;
+        }
+
+        .reference {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <img class="reference" src="../resources/prob.png" width="390px">
+</body>
+</html>

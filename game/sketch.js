@@ -1,11 +1,12 @@
 var ai = null, player = null;
 var elements = [];
-var type = [true,false];
 var bg; 
 var paused = false;
+var result;
 const headConstant = 20/1366;
 const elementConstant = 25/1366;
 const lengthConstant = 200/1366;
+var timeofdeath = 0;
 
 function preload() {
     bg = createImg('../resources/bg2.jpg');
@@ -19,6 +20,7 @@ function setup() {
     bg.size(width,height);
     bg.position(0,0);
     bg.style('z-index: -1');
+    result = document.getElementById("winner");
 }
 
 function draw() {
@@ -44,8 +46,10 @@ function draw() {
         player.naturalMovement();
         player.eat(elements);
         player.show();
-        if(player.health<=0)
+        if(player.health<=0) {
+            player.remove();
             player = null;
+        }
     }
     
     //Render AI
@@ -56,8 +60,21 @@ function draw() {
         ai.move();
         ai.naturalMovement();
         ai.show();
-        if(ai.health<=0)
+        if(ai.health<=0) {
+            ai.remove();
             ai = null;
+        }
+    }
+
+    if(ai==null || player==null) {
+        if(ai==null)
+            result.innerHTML = 'PLAYER';
+        else if(player==null) 
+            result.innerHTML = 'AI';
+        document.getElementById("alert_message").style.visibility = 'visible';
+        timeofdeath += 1;
+        if(timeofdeath>1)
+            noLoop();
     }
 }
 

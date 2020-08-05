@@ -128,13 +128,14 @@ class Agent {
                     if(this.health<=this.maxHealth-5)
                         this.health+=5;
                     this.foodEaten+=1;
+                    this.nutrition+=1;
                 }
                 else {
                     this.health-=5;
                     this.poisonEaten+=1;
+                    this.nutrition-=1;
                 }
                 elements.splice(closest,1);
-                this.nutrition = this.foodEaten - this.poisonEaten;
             }
         }
 

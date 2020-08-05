@@ -15,7 +15,7 @@ class Agent {
         this.health = 50;
         this.maxHealth = 100;
         this.h = 0;
-        this.gene = [0,0];
+        this.gene = [1.5,-1.5];
     }
 
     //Steering force = Desired - current
@@ -178,5 +178,11 @@ class Agent {
             strokeWeight(2);
         stroke(255);
         rect(x,y+this.size/2,l,b);
+    }
+
+    remove() {
+        this.position.x = -50;
+        this.position.y = -50;
+        this.healthBar(-50,50);
     }
 }
